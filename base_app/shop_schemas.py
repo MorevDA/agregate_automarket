@@ -25,6 +25,8 @@ class Parts_Information:
     shop_name: str = None
     original_parts: Part = None
     analog_parts: list[Part] = field(default_factory=list)
+    original_part_number: str = None
+    config: object = None
 
     def return_result(self):
         """Функция для преобразования датаклассов - атрибутов объекта в словарь для удобства

@@ -9,8 +9,6 @@ from base_app.shop_schemas import Parts_Information, Part, Suggestion
 
 @dataclass
 class Armtek_Parts_Information(Parts_Information):
-    original_part_number: str = None
-    config: Config = None
 
     def __post_init__(self):
         self.__get_art_id()
@@ -67,8 +65,6 @@ class Armtek_Parts_Information(Parts_Information):
             suggestions_list = self.get_suggestion_list(content)
             part.suggestions = suggestions_list
         return all_parts
-
-
 
     @staticmethod
     def get_part_info(json_data, part):
