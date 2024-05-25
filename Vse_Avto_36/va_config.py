@@ -24,5 +24,6 @@ class Config:
         self.cookies = self._get_cookies()
 
     def _get_cookies(self) -> RequestsCookieJar:
+        """Метод для получения cookies"""
         cookies = self.session.get(self.cookies_url, headers=self.headers).cookies
         return cookies
