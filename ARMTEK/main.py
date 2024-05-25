@@ -67,12 +67,7 @@ class Armtek_Parts_Information(Parts_Information):
             part.suggestions = suggestions_list
         return all_parts
 
-    def return_result(self):
-        """Функция для преобразования датаклассов - атрибутов объекта в словарь для удобства
-        отправки и записи в файл"""
-        result = {'original_part': asdict(self.original_parts),
-                  'analog_parts': [asdict(part) for part in self.analog_parts]}
-        return result
+
 
     @staticmethod
     def get_part_info(json_data, part):

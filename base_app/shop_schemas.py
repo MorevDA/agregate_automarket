@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from requests import Session
 
 
@@ -26,6 +26,12 @@ class Parts_Information:
     original_parts: Part = None
     analog_parts: list[Part] = field(default_factory=list)
 
+    def return_result(self):
+        """Функция для преобразования датаклассов - атрибутов объекта в словарь для удобства
+        отправки и записи в файл"""
+        result = {'original_part': asdict(self.original_parts),
+                  'analog_parts': [asdict(part) for part in self.analog_parts]}
+        return result
 
 
 class Shop:
