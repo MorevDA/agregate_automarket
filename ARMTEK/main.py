@@ -1,9 +1,10 @@
-from dataclasses import dataclass, asdict
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import date
 
 from armtek_config import Config
 from shop_schemas import Parts_Information, Part, Suggestion
+from base_app.shop_schemas import Parts_Information, Part, Suggestion
 
 
 @dataclass
