@@ -6,7 +6,8 @@ class Config:
     def __init__(self, session):
         self.cookies_url: str = 'https://www.va36.ru'
         self.base_search_url: str = 'https://www.va36.ru/api/v2/client/fast-search/'
-        self.params: dict = {'start_params_base': {'term': None}}
+        self.params_for_brand_search: dict = {'article': "", 'withAnalogs': '1'}
+        self.params_for_full_search = {'article': None, 'brand': None, 'withAnalogs': '1'}
         self.headers = {'authority': 'www.va36.ru',
                         'accept': '*/*',
                         'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
