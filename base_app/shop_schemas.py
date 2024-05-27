@@ -15,7 +15,6 @@ class Part:
     brand: str
     part_number: str
     name: str
-    art_id: str
     suggestions: list[Suggestion] = field(default_factory=list)
 
 

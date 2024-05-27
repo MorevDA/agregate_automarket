@@ -2,9 +2,12 @@ from copy import deepcopy
 from dataclasses import dataclass
 from datetime import date
 
-from armtek_config import Config
-from shop_schemas import Parts_Information, Part, Suggestion
 from base_app.shop_schemas import Parts_Information, Part, Suggestion
+
+
+@ dataclass
+class Armtek_Part(Part):
+    art_id: str = None
 
 
 @dataclass
@@ -29,21 +32,22 @@ class Armtek_Parts_Information(Parts_Information):
         self.config.related_parts_search_data['artId'] = art_id
         self.config.related_parts_search_data['filters']['artId'] = art_id
 
+
     def __get_pages_count(self) -> int:
         """Функция для получения количества страниц с предложениями о деталях"""
         response = self.__get_content_post_method(self.session, self.config.art_id_url, self.config.headers_search,
                                                   self.config.related_parts_search_data)
+        page = response['data']['pagination']['pageCount']
+        return page
 
-        return response['data']['pagination']['pageCount']
-
-    def __get_part_on_page(self, search_data: dict) -> list[Part]:
+    def __get_part_on_page(self, search_data: dict) -> list[Armtek_Part]:
         """Функция для получения основной информации о деталях с одной страницы"""
         self.config.headers_search['authority'] = 'restapi.armtek.ru'
         content = self.__get_content_post_method(self.session, self.config.art_id_url, self.config.headers_search,
                                                  search_data)
-        return self.get_part_info(content, Part)
+        return self.get_part_info(content, Armtek_Part)
 
-    def __get_parts_on_all_pages(self) -> list[Part]:
+    def __get_parts_on_all_pages(self) -> list[Armtek_Part]:
         """Функция для получения основной информации о деталях с искомым парт-номером"""
         pages_count = self.__get_pages_count()
         all_parts = []
@@ -73,7 +77,8 @@ class Armtek_Parts_Information(Parts_Information):
         для дальнейшего поиска ценовых предложений"""
         part_info_list: list = []
         for part_info in json_data['data']['articlesData']:
-            part_info_list.append(part(part_info['BRAND'], part_info['PIN'], part_info['NAME'], part_info['ARTID']))
+            part_info_list.append(part(part_info['BRAND'], part_info['PIN'], part_info['NAME'],
+                                       art_id=part_info['ARTID']))
         return part_info_list
 
     @staticmethod
