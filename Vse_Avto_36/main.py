@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from base_app.shop_schemas import Parts_Information
+from base_app.shop_schemas import Parts_Information, Suggestion, Part
 from va_config import Config
 
 
@@ -28,3 +28,9 @@ class VA_Parts_Information(Parts_Information):
         data = self.session.get(self.config.base_search_url, params=self.config.params_for_full_search,
                                 cookies=self.config.cookies, headers=self.config.headers)
         return data.json()
+
+    @staticmethod
+    def get_suggestion(part: dict) -> Suggestion:
+        """Метод для преобразования json-объекта в экземпляр класса Suggestion"""
+        suggestion = Suggestion(part['price'], part['amountNum'], part['term'], part['termMax'])
+        return suggestion
