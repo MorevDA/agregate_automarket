@@ -33,6 +33,20 @@ class VA_Parts_Information(Parts_Information):
         self.original_parts = Part(input_data[0]['brand'], input_data[0]['articleDisplay'], input_data[0]['name'], '')
         self.original_parts.suggestions = list(map(self.get_suggestion, input_data))
 
+    def _get_analog_parts(self, analog_json: list):
+        """Метод для получения перечня возможных замен для искомого парт-номера"""
+        analog_json.sort(key=lambda x: x['brand'])
+        part_brand = Part(analog_json[0]['brand'], analog_json[0]['articleDisplay'], analog_json[0]['name'])
+        analog_parts = []
+        for part_data in analog_json:
+            if part_data['brand'] == part_brand.brand and part_data['articleDisplay'] == part_brand.part_number:
+                part_brand.suggestions.append(self.get_suggestion(part_data))
+            else:
+                analog_parts.append(part_brand)
+                part_brand = Part(part_data['brand'], part_data['articleDisplay'], part_data['name'])
+                part_brand.suggestions.append(self.get_suggestion(part_data))
+        self.analog_parts = analog_parts
+
     @staticmethod
     def get_suggestion(part: dict) -> Suggestion:
         """Метод для преобразования json-объекта в экземпляр класса Suggestion"""
