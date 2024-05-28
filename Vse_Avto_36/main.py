@@ -29,6 +29,10 @@ class VA_Parts_Information(Parts_Information):
                                 cookies=self.config.cookies, headers=self.config.headers)
         return data.json()
 
+    def _get_original_parts(self, input_data: list) -> None:
+        self.original_parts = Part(input_data[0]['brand'], input_data[0]['articleDisplay'], input_data[0]['name'], '')
+        self.original_parts.suggestions = list(map(self.get_suggestion, input_data))
+
     @staticmethod
     def get_suggestion(part: dict) -> Suggestion:
         """Метод для преобразования json-объекта в экземпляр класса Suggestion"""
