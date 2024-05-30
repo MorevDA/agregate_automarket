@@ -35,6 +35,13 @@ class Parts_Information:
                   'analog_parts': [asdict(part) for part in self.analog_parts]}
         return result
 
+    def _get_full_part_information(self) -> dict:
+        """Метод для получения от API полного перечня деталей по запрашиваемому парт-номеру.
+        Получаем json с полным перечнем предложений по искомому парт-номеру, а также возможные аналоги."""
+        data = self.session.get(self.config.search_url, params=self.config.params_for_search,
+                                cookies=self.config.cookies, headers=self.config.headers)
+        return data.json()
+
     def _get_content_by_get_method(self, url: str, headers: dict, cookies: dict| RequestsCookieJar, param: dict) -> dict:
         """Метод для отправки запросов методом get"""
         json_data = self.session.get(url=url, headers=headers, cookies=cookies, params= param).json()
