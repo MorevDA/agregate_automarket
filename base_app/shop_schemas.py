@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field, asdict
 from requests import Session
+from requests.cookies import RequestsCookieJar
 
 
 @dataclass
@@ -33,6 +34,11 @@ class Parts_Information:
         result = {'original_part': asdict(self.original_parts),
                   'analog_parts': [asdict(part) for part in self.analog_parts]}
         return result
+
+    def __get_content_post_method(self, url: str, headers: dict, cookies: dict| RequestsCookieJar, param: dict) -> dict:
+        """Метод для отправки запросов методом get"""
+        json_data = self.session.get(url=url, headers=headers, cookies=cookies, params= param).json()
+        return json_data
 
 
 class Shop:
