@@ -35,7 +35,7 @@ class Parts_Information:
                   'analog_parts': [asdict(part) for part in self.analog_parts]}
         return result
 
-    def __get_content_get_method(self, url: str, headers: dict, cookies: dict| RequestsCookieJar, param: dict) -> dict:
+    def _get_content_by_get_method(self, url: str, headers: dict, cookies: dict| RequestsCookieJar, param: dict) -> dict:
         """Метод для отправки запросов методом get"""
         json_data = self.session.get(url=url, headers=headers, cookies=cookies, params= param).json()
         return json_data
