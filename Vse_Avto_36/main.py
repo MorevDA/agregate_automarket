@@ -6,7 +6,6 @@ from va_config import Config
 
 @dataclass
 class VA_Parts_Information(Parts_Information):
-    config: Config = None
     brand: str = None
 
     def __post_init__(self):
