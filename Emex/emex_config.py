@@ -12,7 +12,7 @@ class Config:
             'showAll': 'true',
             'searchSource': 'direct',
             'searchString': '4451809000',
-            'locationId': '11912',  # офис выдачи, при дальнейшем развитии проекта возможно динаимически изменять
+            'locationId': '11912',  # офис выдачи, при дальнейшем развитии проекта возможно динамически изменять
         }
         self.headers = {
             'Accept': 'application/json, text/plain, */*',
