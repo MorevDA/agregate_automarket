@@ -10,6 +10,15 @@ class Emex_Parts_Information(Parts_Information):
     def __post_init__(self):
         self.config.params_for_search['detailNum'] = self.config.params_for_search['searchString']\
             = self.original_part_number
+        full_parts_data = self._get_full_part_information()
+        self.original_parts = self.get_original_part(full_parts_data['searchResult']['originals'][0])
+
+    def get_original_part(self, part_ifo: dict) -> Part:
+        """Метод для получения информации по запчасти с искомым парт-номером"""
+        original_part = Part(part_ifo['make'], part_ifo['detailNum'], part_ifo['name'])
+        original_part.suggestions = [self.get_suggestion(offer) for offer in part_ifo['offers']]
+
+        return original_part
 
     @staticmethod
     def get_suggestion(data: dict) -> Suggestion:
