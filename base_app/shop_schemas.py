@@ -35,7 +35,7 @@ class Parts_Information:
                   'analog_parts': [asdict(part) for part in self.analog_parts]}
         return result
 
-    def _get_full_part_information(self) -> dict:
+    def _get_raw_parts_information(self) -> dict:
         """Метод для получения от API полного перечня деталей по запрашиваемому парт-номеру.
         Получаем json с полным перечнем предложений по искомому парт-номеру, а также возможные аналоги."""
         data = self.session.get(self.config.search_url, params=self.config.params_for_search,

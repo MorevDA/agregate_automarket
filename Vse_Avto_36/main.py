@@ -14,7 +14,7 @@ class VA_Parts_Information(Parts_Information):
         self.config.params_for_brand_search['article'] = self.original_part_number
         self.config.params_for_search['article'] = self.original_part_number
         self._get_brand_name()
-        parts_content: dict = self._get_full_part_information().get('data')['rows']
+        parts_content: dict = self._get_raw_parts_information().get('data')['rows']
         self._get_original_parts(parts_content['request'])
         self._get_analog_parts(parts_content['nonOriginalAnalog'])
 
