@@ -47,9 +47,10 @@ class Parts_Information:
         json_data = self.session.get(url=url, headers=headers, cookies=cookies, params= param).json()
         return json_data
 
-    def __get_content_post_method(self, url: str, headers: dict, json_data: dict = None, data: dict = None) -> dict:
+    def _get_content_post_method(self, url: str, headers: dict, json_data: dict = None, data: dict = None,
+        cookies=None) -> dict:
         """Функция для запроса данных методом POST"""
-        content = self.session.post(url, headers=headers, json=json_data, data=data).json()
+        content = self.session.post(url, headers=headers, json=json_data, data=data, cookies=cookies).json()
         return content
 
 
