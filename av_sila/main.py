@@ -8,17 +8,8 @@ class AVS_Parts_Information(Parts_Information):
 
     def __post_init__(self):
         self.config.params_for_search['q'] = self.original_part_number
-        self._get_brand()
         full_json_data = self._get_full_parts_information()['parts']
         self.original_parts = self._get_information_original_parts(full_json_data)
-
-    def _get_brand(self) -> None:
-        """Метод для получения бренда производителя детали с запрашиваемым парт-номером для дальнейшего поиска
-        предложений"""
-        json_data = self._get_content_post_method(url=self.config.search_url, headers=self.config.headers,
-                                                  data=self.config.params_for_search)
-        self.config.params_for_search['brand_title'] = list(json_data['catalogs'].keys())[0]
-        return json_data
 
     def _get_full_parts_information(self) -> dict:
         """Метод для получения полной информации(оригиналы и аналоги) по запчасти с искомым парт-номером"""
@@ -33,9 +24,13 @@ class AVS_Parts_Information(Parts_Information):
         brand = self.config.params_for_search['brand_title']
         part_number = self.config.params_for_search['q']
         suggestion_info = content['analog_type_N'][brand][part_number]['items']
-        original = Part(brand, part_number, '')
+        brand_name = suggestion_info[0]['title']
+        original = Part(brand, part_number, brand_name)
         original.suggestions = [self._get_suggestions(supply) for supply in suggestion_info]
         return original
+
+    # def _get_analog_part_information(self, content: dict) -> list(Part):
+
 
     @staticmethod
     def _get_suggestions(part_info: dict) -> Suggestion:
