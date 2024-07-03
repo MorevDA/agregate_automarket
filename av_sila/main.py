@@ -9,7 +9,7 @@ class AVS_Parts_Information(Parts_Information):
     def __post_init__(self):
         self.config.params_for_search['q'] = self.original_part_number
         self._get_brand_name()
-        full_json_data = self._get_full_parts_information()
+        full_json_data = self._get_data_by_api()
         self.original_parts = self._get_original_part(full_json_data['analog_type_N'])
         self.analog_parts = self._get_analog_part_information(full_json_data['analog_type_0'])
 
@@ -20,12 +20,11 @@ class AVS_Parts_Information(Parts_Information):
                                                               cookies=self.config.cookies)
         self.config.params_for_search['brand_title'] = list(data['catalogs'])[0]
 
-    def _get_full_parts_information(self) -> dict:
+    def _get_data_by_api(self) -> dict:
         """Метод для получения полной информации(оригиналы и аналоги) по запчасти с искомым парт-номером"""
         full_part_information = self._get_content_post_method(url=self.config.search_url, headers=self.config.headers,
                                                               data=self.config.params_for_search,
                                                               cookies=self.config.cookies)
-
         return full_part_information['parts']
 
     def _get_parts_information(self, content: dict) -> Part:
